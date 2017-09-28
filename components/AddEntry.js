@@ -6,6 +6,7 @@ import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
 import { Ionicons } from '@expo/vector-icons'
 import TextButton from './TextButton'
+import { submitEntry, removeEntry } from '../utils/api'
 
 
 function SubmitBtn({onPress}){
@@ -66,10 +67,15 @@ submit = () => {
     sleep:0,
     eat:0
   }))
+
+//save to db
+   submitEntry({ key, entry })
 }
 
 reset = () => {
      const key = timeToString()
+
+     removeEntry({key})
   }
 
   render(){
