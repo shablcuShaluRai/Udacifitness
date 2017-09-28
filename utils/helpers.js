@@ -3,6 +3,12 @@ import { View } from 'react-native'
 import {FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import {black} from './colors'
 
+export function getDailyReminderValue () {
+   return {
+    today: " Don't forget to log your data today!"
+  }
+}
+
 
 export function isBetween (num, x, y) {
   if (num >= x && num <= y) {
