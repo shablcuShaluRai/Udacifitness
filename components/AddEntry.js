@@ -13,13 +13,12 @@ import { purple, white } from '../utils/colors'
 import { NavigationActions } from 'react-navigation'
 
 
-function SubmitBtn({onPress}){
-  return(
+function SubmitBtn ({ onPress }) {
+  return (
     <TouchableOpacity
-    onPress={onPress}>
-      <Text  style={styles.submitBtnText}>
-      Submit
-       </Text>
+      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
+      onPress={onPress}>
+        <Text style={styles.submitBtnText}>SUBMIT</Text>
     </TouchableOpacity>
   )
 }
