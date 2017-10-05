@@ -165,54 +165,53 @@ export function getMetricMetaInfo(metric){
   : info[metric]
 }
 
-
-  export function clearLocalNotification () {
+export function clearLocalNotification () {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync)
 }
 
-
-function createNotification(){
+function createNotification () {
   return {
-    title:'Log your Stats',
-    body:"don't forget to log your stats for today"
-    ios:{
-      sound:true,
+    title: 'Log your stats!',
+    body: "don't forget to log your stats for today!",
+    ios: {
+      sound: true,
     },
-    android:{
-      sound:true,
-      priority:'high',
-      sticky:false,
-      vibrate:true,
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky: false,
+      vibrate: true,
     }
   }
 }
 
-
-export function setLocalNotification(){
+export function setLocalNotification () {
   AsyncStorage.getItem(NOTIFICATION_KEY)
-  .then((data) =>{
-    if(data === null){
-      Permissions.askAsync(Permissions.NOTIFICATIONS)
-      .then(({ status }) => {
-        if(status === 'granted')
-        {
-          Notifications.cancelAllScheduledNotificationsAsync()
-          let  tomorrow = new Date()
-          tomorrow.setDate(tomorrow.getDate()+1)
-          tomorrow.setHours(20)
-          tomorrow.setMinutes(0)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({ status }) => {
+            if (status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync()
 
-          Notifications.scheduleLocalNotificationsAsync(
-            createNotification(),
-            {
-              time:tomorrow,
-              repeat:'day',
+              let tomorrow = new Date()
+              tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setHours(20)
+              tomorrow.setMinutes(0)
+
+              Notifications.scheduleLocalNotificationAsync(
+                createNotification(),
+                {
+                  time: tomorrow,
+                  repeat: 'day',
+                }
+              )
+
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
             }
-          )
-          AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
-        }
-      })
-    }
-  })
+          })
+      }
+    })
 }
